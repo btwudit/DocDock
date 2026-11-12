@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocDock - Image to PDF & PDF Compressor</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="logo" onclick="switchTool('img2pdf')">
+        <svg class="logo__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <span class="logo__text">DOC<span>DOCK</span></span>
+      </div>
+
+      <nav class="nav">
+        <button class="nav__btn active" id="nav-img2pdf" onclick="switchTool('img2pdf')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          JPG to PDF
+        </button>
+        <button class="nav__btn" id="nav-compress" onclick="switchTool('compress')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          Compress PDF
+        </button>
+        <button class="nav__btn" id="nav-imgtools" onclick="switchTool('imgtools')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m4.93 4.93 4.24 4.24"></path>
+            <path d="m14.83 9.17 4.24-4.24"></path>
+            <path d="m14.83 14.83 4.24 4.24"></path>
+            <path d="m9.17 14.83-4.24 4.24"></path>
+            <circle cx="12" cy="12" r="4"></circle>
+          </svg>
+          Image Compressor &amp; Converter
+        </button>
+      </nav>
+
+      <div class="header__badge">
+        <span class="badge__dot"></span>
+        100% Local &amp; Private
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main">
+    <!-- ==================== JPG TO PDF SECTION ==================== -->
+    <section id="section-img2pdf" class="tool-section active">
+      <!-- Upload Empty State -->
+      <div class="uploader-hero" id="img2pdf-hero">
+        <div class="hero__content">
+          <h1 class="hero__title">JPG to PDF</h1>
+          <p class="hero__subtitle">Convert JPG images to PDF in seconds. Easily adjust orientation, margins and page layout.</p>
+          
+          <div class="dropzone" id="img2pdf-dropzone">
+            <input type="file" id="img2pdf-file-input" multiple accept="image/*" class="file-input">
+            <div class="dropzone__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <button class="btn btn--primary btn--lg" onclick="document.getElementById('img2pdf-file-input').click()">
+              Select JPG images
+            </button>
+            <p class="dropzone__text">or drop JPG images here</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Workspace State -->
+      <div class="workspace" id="img2pdf-workspace" style="display: none;">
+        <div class="workspace__canvas">
+          <div class="workspace__toolbar">
+            <span class="toolbar__info" id="img2pdf-count-info">0 images selected</span>
+            <button class="btn btn--secondary btn--sm" onclick="document.getElementById('img2pdf-add-more').click()">
+              + Add more images
+            </button>
+            <input type="file" id="img2pdf-add-more" multiple accept="image/*" class="file-input">
+            <button class="btn btn--ghost btn--sm" onclick="clearImages()">Clear all</button>
+          </div>
+
+          <div class="cards-grid" id="img2pdf-grid">
+            <!-- Dynamic Image Cards injected here -->
+          </div>
+        </div>
+
+        <!-- Options Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar__title">Image to PDF options</div>
+
+          <!-- Page Orientation -->
+          <div class="sidebar__group">
+            <label class="sidebar__label">Page orientation</label>
+            <div class="option-grid option-grid--2">
+              <div class="option-card active" data-orientation="portrait" onclick="setOrientation('portrait')">
+                <svg width="24" height="32" viewBox="0 0 24 32" fill="currentColor">
+                  <path d="M3,3 L3,29 L21,29 L21,3 L3,3 Z M2,0 L22,0 C23.1,0 24,0.9 24,2 L24,30 C24,31.1 23.1,32 22,32 L2,32 C0.9,32 0,31.1 0,30 L0,2 C0,0.9 0.9,0 2,0 Z"/>
+                </svg>
+                <span>Portrait</span>
+              </div>
+              <div class="option-card" data-orientation="landscape" onclick="setOrientation('landscape')">
+                <svg width="32" height="24" viewBox="0 0 32 24" fill="currentColor">
+                  <path d="M3,3 L29,3 L29,21 L3,21 L3,3 Z M2,0 C0.9,0 0,0.9 0,2 L0,22 C0,23.1 0.9,24 2,24 L30,24 C31.1,24 32,23.1 32,22 L32,2 C32,0.9 31.1,0 30,0 L2,0 Z"/>
+                </svg>
+                <span>Landscape</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Page Size -->
+          <div class="sidebar__group">
+            <label class="sidebar__label" for="select-pagesize">Page size</label>
+            <select id="select-pagesize" class="input-select" onchange="updatePreviewLayout()">
+              <option value="fit" selected>Fit (Same page size as image)</option>
+              <option value="A4">A4 (297x210 mm)</option>
+              <option value="letter">US Letter (215x279.4 mm)</option>
+            </select>
+          </div>
+
+          <!-- Margin -->
+          <div class="sidebar__group">
+            <label class="sidebar__label">Margin</label>
+            <div class="option-grid option-grid--3">
+              <div class="option-card active" data-margin="0" onclick="setMargin(0)">
+                <div class="margin-preview margin-0"></div>
+                <span>No margin</span>
+              </div>
+              <div class="option-card" data-margin="20" onclick="setMargin(20)">
+                <div class="margin-preview margin-20"></div>
+                <span>Small</span>
+              </div>
+              <div class="option-card" data-margin="40" onclick="setMargin(40)">
+                <div class="margin-preview margin-40"></div>
+                <span>Big</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Merge Option -->
+          <div class="sidebar__group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="check-merge" checked>
+              <span>Merge all images in one PDF file</span>
+            </label>
+          </div>
+
+          <!-- CTA Process Button -->
+          <button class="btn btn--action btn--full" id="btn-process-img2pdf" onclick="processImagesToPdf()">
+            Convert to PDF &rarr;
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== PDF COMPRESSOR SECTION ==================== -->
+    <section id="section-compress" class="tool-section">
+      <!-- Upload Empty State -->
+      <div class="uploader-hero" id="compress-hero">
+        <div class="hero__content">
+          <h1 class="hero__title">Compress PDF</h1>
+          <p class="hero__subtitle">Reduce file size while optimizing for maximal PDF quality.</p>
+          
+          <div class="dropzone" id="compress-dropzone">
+            <input type="file" id="compress-file-input" accept=".pdf,application/pdf" class="file-input">
+            <div class="dropzone__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48">
+                <polyline points="4 14 10 14 10 20"></polyline>
+                <polyline points="20 10 14 10 14 4"></polyline>
+                <line x1="14" y1="10" x2="21" y2="3"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+              </svg>
+            </div>
+            <button class="btn btn--primary btn--lg" onclick="document.getElementById('compress-file-input').click()">
+              Select PDF file
+            </button>
+            <p class="dropzone__text">or drop PDF here</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Workspace State -->
+      <div class="workspace" id="compress-workspace" style="display: none;">
+        <div class="workspace__canvas">
+          <div class="pdf-card" id="compress-pdf-card">
+            <div class="pdf-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="pdf-card__info">
+              <div class="pdf-card__name" id="compress-file-name">document.pdf</div>
+              <div class="pdf-card__size" id="compress-file-size">0 KB</div>
+            </div>
+            <button class="pdf-card__remove" onclick="clearCompressPdf()" title="Remove file">&times;</button>
+          </div>
+        </div>
+
+        <!-- Options Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar__title">Compression level</div>
+
+          <div class="radio-cards">
+            <!-- Extreme -->
+            <label class="radio-card" onclick="setCompressionLevel('extreme')">
+              <input type="radio" name="compression_level" value="extreme" id="radio-extreme">
+              <div class="radio-card__body">
+                <div class="radio-card__title">Extreme compression</div>
+                <div class="radio-card__subtitle">Less quality, high compression</div>
+              </div>
+            </label>
+
+            <!-- Recommended (Default) -->
+            <label class="radio-card active" onclick="setCompressionLevel('recommended')">
+              <input type="radio" name="compression_level" value="recommended" id="radio-recommended" checked>
+              <div class="radio-card__body">
+                <div class="radio-card__title">Recommended compression</div>
+                <div class="radio-card__subtitle">Good quality, good compression</div>
+              </div>
+            </label>
+
+            <!-- Low -->
+            <label class="radio-card" onclick="setCompressionLevel('low')">
+              <input type="radio" name="compression_level" value="low" id="radio-low">
+              <div class="radio-card__body">
+                <div class="radio-card__title">Less compression</div>
+                <div class="radio-card__subtitle">High quality, less compression</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- CTA Process Button -->
+          <button class="btn btn--action btn--full" id="btn-process-compress" onclick="processCompressPdf()">
+            Compress PDF &rarr;
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== IMAGE COMPRESSOR & CONVERTER SECTION ==================== -->
+    <section id="section-imgtools" class="tool-section">
+      <!-- Upload Empty State -->
+      <div class="uploader-hero" id="imgtools-hero">
+        <div class="hero__content">
+          <h1 class="hero__title">Image Compressor &amp; Format Converter</h1>
+          <p class="hero__subtitle">Compress images with high fidelity and seamlessly convert between JPG, PNG, and WebP.</p>
+          
+          <div class="dropzone" id="imgtools-dropzone">
+            <input type="file" id="imgtools-file-input" multiple accept="image/*" class="file-input">
+            <div class="dropzone__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="4"></circle>
+              </svg>
+            </div>
+            <button class="btn btn--primary btn--lg" onclick="document.getElementById('imgtools-file-input').click()">
+              Select images
+            </button>
+            <p class="dropzone__text">or drop images here</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Workspace State -->
+      <div class="workspace" id="imgtools-workspace" style="display: none;">
+        <div class="workspace__canvas">
+          <div class="workspace__toolbar">
+            <span class="toolbar__info" id="imgtools-count-info">0 images selected</span>
+            <button class="btn btn--secondary btn--sm" onclick="document.getElementById('imgtools-add-more').click()">
+              + Add more images
+            </button>
+            <input type="file" id="imgtools-add-more" multiple accept="image/*" class="file-input">
+            <button class="btn btn--ghost btn--sm" onclick="clearImgToolsImages()">Clear all</button>
+          </div>
+
+          <div class="cards-grid" id="imgtools-grid">
+            <!-- Dynamic Image Cards injected here -->
+          </div>
+        </div>
+
+        <!-- Options Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar__title">Image Options</div>
+
+          <!-- Target Format -->
+          <div class="sidebar__group">
+            <label class="sidebar__label" for="select-imgtools-format">Convert to format</label>
+            <select id="select-imgtools-format" class="input-select">
+              <option value="jpeg" selected>JPG / JPEG (.jpg)</option>
+              <option value="png">PNG (.png)</option>
+              <option value="webp">WebP (.webp - Ultra Compact)</option>
+            </select>
+          </div>
+
+          <!-- Quality / Compression -->
+          <div class="sidebar__group">
+            <label class="sidebar__label" for="select-imgtools-quality">Compression level</label>
+            <select id="select-imgtools-quality" class="input-select">
+              <option value="70" selected>Balanced / Recommended (70% quality)</option>
+              <option value="50">Maximum Compression (50% quality - Smallest size)</option>
+              <option value="85">High Quality (85% quality - Light compression)</option>
+              <option value="95">Near Lossless (95% quality)</option>
+            </select>
+          </div>
+
+          <!-- Max Resolution Resize -->
+          <div class="sidebar__group">
+            <label class="sidebar__label" for="select-imgtools-resize">Max Resolution</label>
+            <select id="select-imgtools-resize" class="input-select">
+              <option value="original" selected>Original Resolution</option>
+              <option value="1920">Full HD (Max 1920px)</option>
+              <option value="1280">HD (Max 1280px)</option>
+              <option value="800">Web / Mobile (Max 800px)</option>
+            </select>
+          </div>
+
+          <!-- CTA Process Button -->
+          <button class="btn btn--action btn--full" id="btn-process-imgtools" onclick="processImgToolsImages()">
+            Compress &amp; Convert &rarr;
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== PROCESSING OVERLAY ==================== -->
+    <div class="overlay" id="processing-overlay" style="display: none;">
+      <div class="overlay__content">
+        <div class="spinner"></div>
+        <h3 class="overlay__title" id="overlay-status-title">Processing your files...</h3>
+        <p class="overlay__subtitle" id="overlay-status-desc">Optimizing layout and compressing PDF streams.</p>
+        <div class="progress-bar">
+          <div class="progress-bar__fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== RESULT MODAL ==================== -->
+    <div class="modal" id="result-modal" style="display: none;">
+      <div class="modal__backdrop" onclick="closeModal()"></div>
+      <div class="modal__content">
+        <button class="modal__close" onclick="closeModal()">&times;</button>
+        <div class="result__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <h2 class="result__title" id="result-title">Task completed!</h2>
+        <p class="result__desc" id="result-desc">Your PDF is ready for download.</p>
+
+        <!-- Stats Box (for compression) -->
+        <div class="stats-box" id="result-stats" style="display: none;">
+          <div class="stat-pill">
+            <span class="stat-pill__label">Original Size</span>
+            <span class="stat-pill__value" id="stat-orig-size">0 KB</span>
+          </div>
+          <div class="stat-pill stat-pill--highlight">
+            <span class="stat-pill__label">Savings</span>
+            <span class="stat-pill__value" id="stat-savings">-0%</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-pill__label">New Size</span>
+            <span class="stat-pill__value" id="stat-comp-size">0 KB</span>
+          </div>
+        </div>
+
+        <div class="result__actions">
+          <a id="result-download-btn" class="btn btn--primary btn--lg btn--full" download>
+            Download file
+          </a>
+          <button class="btn btn--ghost btn--full" onclick="closeModal()">
+            Convert another file
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

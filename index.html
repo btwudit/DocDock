@@ -1,0 +1,3289 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocDock - All-in-One PDF & Image Tool</title>
+  <style>
+:root {
+  --primary: #e5322d;
+  --primary-hover: #cb2520;
+  --primary-light: #fbeae9;
+  --bg-main: #f8f9fa;
+  --bg-card: #ffffff;
+  --border: #e2e2ea;
+  --border-active: #161616;
+  --text-primary: #161616;
+  --text-secondary: #5e5e66;
+  --text-muted: #8c8c96;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ================= HEADER ================= */
+.header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.logo__icon {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+}
+
+.logo__text {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+.logo__text span {
+  color: var(--primary);
+}
+
+.header__badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #10b981;
+  background: #ecfdf5;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+/* ================= NAV TABS ================= */
+.nav {
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 0 4px;
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.nav__btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.nav__btn:hover {
+  color: var(--text-primary);
+  background: #f5f5fa;
+}
+
+.nav__btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* ================= MAIN CONTENT ================= */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+.tab-pane {
+  display: none;
+  padding: 14px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tab-pane.active {
+  display: flex;
+}
+
+/* ================= BUTTONS ================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn--secondary {
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn--secondary:hover {
+  background: #f5f5fa;
+  border-color: #c0c0cc;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn--ghost:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.btn--action {
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 8px rgba(229, 50, 45, 0.25);
+  margin-top: 10px;
+}
+
+.btn--action:hover {
+  background: var(--primary-hover);
+}
+
+.btn--md {
+  padding: 10px 18px;
+  font-size: 13px;
+}
+
+.btn--sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.btn--xs {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.file-input {
+  display: none;
+}
+
+/* ================= TAB 1: MY DOCUMENTS ================= */
+.docs-toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.search-wrap {
+  flex: 1;
+}
+
+.search-input {
+  width: 100%;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  padding: 0 10px;
+  font-size: 12px;
+  background: #ffffff;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--text-primary);
+}
+
+.category-select {
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  padding: 0 8px;
+  font-size: 12px;
+  background: #ffffff;
+  outline: none;
+  max-width: 120px;
+}
+
+.docs-import-zone {
+  border: 2px dashed #d1d5db;
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  padding: 14px;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.docs-import-zone:hover, .docs-import-zone.dragover {
+  border-color: var(--primary);
+  background: #fffcfc;
+}
+
+.import-zone__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.import-category-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.import-category-bar select {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.docs-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.docs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: calc(100vh - 270px);
+  overflow-y: auto;
+}
+
+/* Document Item Card */
+.doc-item {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.15s ease;
+}
+
+.doc-item:hover {
+  border-color: #b0b0bc;
+}
+
+.doc-item__icon {
+  width: 34px;
+  height: 38px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.doc-item__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.doc-item__info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.doc-item__name {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.category-tag {
+  background: #f0f0f5;
+  color: var(--text-secondary);
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.category-tag--Identity { background: #e0f2fe; color: #0284c7; }
+.category-tag--Taxes { background: #fef3c7; color: #d97706; }
+.category-tag--Forms { background: #f3e8ff; color: #9333ea; }
+
+.doc-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background: #ebebf4;
+  color: var(--text-primary);
+}
+
+.icon-btn--delete:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ================= TAB 2: JPG TO PDF ================= */
+.tool-hero {
+  text-align: center;
+  padding: 24px 8px;
+}
+
+.tool-hero__title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.tool-hero__subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+
+.tool-dropzone {
+  border: 2px dashed #d1d5db;
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.dropzone-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.tool-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.workspace-header__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.img-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.img-card__preview {
+  width: 100%;
+  height: 90px;
+  background: #f0f0f5;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.img-card__preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+.img-card__name {
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.img-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #f0f0f5;
+}
+
+.options-box {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.option-label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.option-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.option-grid--2 { grid-template-columns: 1fr 1fr; }
+.option-grid--3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.option-card {
+  border: 1px solid var(--border);
+  background: #ffffff;
+  border-radius: var(--radius-xs);
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.option-card span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.option-card.active {
+  border: 2px solid var(--text-primary);
+  background: #f5f5fa;
+}
+
+.option-card.active span {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.input-select {
+  width: 100%;
+  height: 34px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  padding: 0 8px;
+  font-size: 12px;
+  background: #ffffff;
+  outline: none;
+}
+
+.margin-preview {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #707078;
+  position: relative;
+  background: #ffffff;
+}
+.margin-0::after { content: ""; position: absolute; inset: 0; background: #c8c8d2; }
+.margin-20::after { content: ""; position: absolute; inset: 3px; background: #c8c8d2; }
+.margin-40::after { content: ""; position: absolute; inset: 6px; background: #c8c8d2; }
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  accent-color: var(--primary);
+  width: 15px;
+  height: 15px;
+}
+
+/* ================= TAB 3: COMPRESS PDF ================= */
+.selected-pdf-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pdf-icon {
+  width: 38px;
+  height: 38px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.pdf-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.pdf-info__name {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pdf-info__size {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.btn-remove {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.btn-remove:hover {
+  color: var(--primary);
+}
+
+.radio-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-card {
+  border: 1px solid var(--border);
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  display: flex;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.radio-card input {
+  display: none;
+}
+
+.radio-card.active {
+  border: 2px solid var(--text-primary);
+  background: #f8f8fc;
+}
+
+.radio-card__title {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.radio-card__subtitle {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ================= TAB 4: UPLOAD ASSISTANT ================= */
+.assistant-header {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assistant-title {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.assistant-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.btn--scan {
+  margin-top: 6px;
+}
+
+.assistant-target {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+}
+
+.target-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #312e81;
+}
+
+.target-url {
+  font-size: 11px;
+  color: #4338ca;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.assistant-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.detected-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: calc(100vh - 350px);
+  overflow-y: auto;
+}
+
+.field-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.field-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-card__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.field-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f0f0f5;
+  color: var(--text-secondary);
+}
+
+.field-badge--accept {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.field-card__details {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.field-card__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.security-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: auto;
+}
+
+.security-notice svg {
+  color: #0284c7;
+  flex-shrink: 0;
+}
+
+/* ================= MODALS & OVERLAYS ================= */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay__content {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 24px;
+  width: 80%;
+  text-align: center;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f0f0f5;
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.overlay__title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.overlay__desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Modal */
+.modal {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal__content {
+  position: relative;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal__title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.modal__close {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.picker-field-info {
+  font-size: 12px;
+  background: #f0f0f5;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  max-height: 240px;
+}
+
+.picker-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.picker-item:hover {
+  background: #f8f8fc;
+  border-color: var(--primary);
+}
+
+.picker-item__name {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.picker-item__meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.toast {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  background: #161616;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  animation: toast-in 0.2s ease-out;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 24px 12px;
+  color: var(--text-muted);
+  font-size: 12px;
+  background: #ffffff;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+
+  </style>
+</head>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <svg class="logo__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+      </svg>
+      <span class="logo__text">DOC<span>DOCK</span></span>
+    </div>
+    <div class="header__badge">
+      <span class="badge__dot"></span>
+      100% Local
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav" id="main-nav">
+    <button class="nav__btn active" id="tab-btn-docs" data-tab="docs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+      </svg>
+      My Docs
+    </button>
+    <button class="nav__btn" id="tab-btn-img2pdf" data-tab="img2pdf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      JPG to PDF
+    </button>
+    <button class="nav__btn" id="tab-btn-compress" data-tab="compress">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <polyline points="4 14 10 14 10 20"></polyline>
+        <polyline points="20 10 14 10 14 4"></polyline>
+        <line x1="14" y1="10" x2="21" y2="3"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+      Compress
+    </button>
+    <button class="nav__btn" id="tab-btn-imgtools" data-tab="imgtools">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="m4.93 4.93 4.24 4.24"></path>
+        <path d="m14.83 9.17 4.24-4.24"></path>
+        <path d="m14.83 14.83 4.24 4.24"></path>
+        <path d="m9.17 14.83-4.24 4.24"></path>
+        <circle cx="12" cy="12" r="4"></circle>
+      </svg>
+      Image Tools
+    </button>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main">
+    <!-- ==================== TAB 1: MY DOCUMENTS (INDEXEDDB) ==================== -->
+    <section id="tab-docs" class="tab-pane active">
+      <!-- Search and Filter Bar -->
+      <div class="docs-toolbar">
+        <div class="search-wrap">
+          <input type="text" id="docs-search-input" class="search-input" placeholder="Search saved documents...">
+        </div>
+        <select id="docs-category-filter" class="category-select">
+          <option value="ALL">All Categories</option>
+          <option value="Identity">Identity</option>
+          <option value="Taxes">Taxes / Finance</option>
+          <option value="Forms">Forms / Applications</option>
+          <option value="General">General</option>
+        </select>
+      </div>
+
+      <!-- Import Dropzone -->
+      <div class="docs-import-zone" id="docs-import-dropzone">
+        <input type="file" id="docs-import-input" multiple accept=".pdf,image/*" class="file-input">
+        <div class="import-zone__content">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Drop files here or <button type="button" class="link-btn" id="btn-browse-docs">Browse</button></span>
+        </div>
+      </div>
+
+      <!-- Category assignment prompt -->
+      <div class="import-category-bar">
+        <label for="import-target-category">Import tag:</label>
+        <select id="import-target-category">
+          <option value="General">General</option>
+          <option value="Identity">Identity</option>
+          <option value="Taxes">Taxes / Finance</option>
+          <option value="Forms">Forms / Applications</option>
+        </select>
+      </div>
+
+      <!-- Documents List -->
+      <div class="docs-list-header">
+        <span id="docs-count-label">0 documents stored</span>
+        <button type="button" class="btn btn--ghost btn--xs" id="btn-clear-all-docs">Clear all</button>
+      </div>
+
+      <div class="docs-list" id="docs-items-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: JPG TO PDF ==================== -->
+    <section id="tab-img2pdf" class="tab-pane">
+      <!-- Empty Hero -->
+      <div class="tool-hero" id="img2pdf-hero">
+        <h2 class="tool-hero__title">JPG to PDF</h2>
+        <p class="tool-hero__subtitle">Convert JPG images to PDF in seconds with custom layout.</p>
+        <div class="tool-dropzone" id="img2pdf-dropzone">
+          <input type="file" id="img2pdf-file-input" multiple accept="image/*" class="file-input">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="36" height="36">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <button type="button" class="btn btn--primary btn--md" id="btn-select-img">
+            Select JPG images
+          </button>
+          <span class="dropzone-hint">or drop images here</span>
+        </div>
+      </div>
+
+      <!-- Active Workspace -->
+      <div class="tool-workspace" id="img2pdf-workspace" style="display: none;">
+        <div class="workspace-header">
+          <span id="img2pdf-count">0 images</span>
+          <div class="workspace-header__actions">
+            <button type="button" class="btn btn--secondary btn--xs" id="btn-add-more-img">+ Add</button>
+            <input type="file" id="img2pdf-add-more" multiple accept="image/*" class="file-input">
+            <button type="button" class="btn btn--ghost btn--xs" id="btn-clear-img">Clear</button>
+          </div>
+        </div>
+
+        <!-- Thumbnails carousel / grid -->
+        <div class="cards-grid" id="img2pdf-grid"></div>
+
+        <!-- Options Box -->
+        <div class="options-box">
+          <!-- Orientation -->
+          <div class="option-field">
+            <label class="option-label">Orientation</label>
+            <div class="option-grid option-grid--2" id="orientation-cards">
+              <div class="option-card active" data-orientation="portrait">
+                <svg width="20" height="26" viewBox="0 0 24 32" fill="currentColor">
+                  <path d="M3,3 L3,29 L21,29 L21,3 L3,3 Z M2,0 L22,0 C23.1,0 24,0.9 24,2 L24,30 C24,31.1 23.1,32 22,32 L2,32 C0.9,32 0,31.1 0,30 L0,2 C0,0.9 0.9,0 2,0 Z"/>
+                </svg>
+                <span>Portrait</span>
+              </div>
+              <div class="option-card" data-orientation="landscape">
+                <svg width="26" height="20" viewBox="0 0 32 24" fill="currentColor">
+                  <path d="M3,3 L29,3 L29,21 L3,21 L3,3 Z M2,0 C0.9,0 0,0.9 0,2 L0,22 C0,23.1 0.9,24 2,24 L30,24 C31.1,24 32,23.1 32,22 L32,2 C32,0.9 31.1,0 30,0 L2,0 Z"/>
+                </svg>
+                <span>Landscape</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Page size -->
+          <div class="option-field">
+            <label class="option-label" for="tool-pagesize">Page size</label>
+            <select id="tool-pagesize" class="input-select">
+              <option value="fit" selected>Fit (Same page size as image)</option>
+              <option value="A4">A4 (297x210 mm)</option>
+              <option value="letter">US Letter (215x279.4 mm)</option>
+            </select>
+          </div>
+
+          <!-- Margins -->
+          <div class="option-field">
+            <label class="option-label">Margin</label>
+            <div class="option-grid option-grid--3" id="margin-cards">
+              <div class="option-card active" data-margin="0">
+                <div class="margin-preview margin-0"></div>
+                <span>No margin</span>
+              </div>
+              <div class="option-card" data-margin="20">
+                <div class="margin-preview margin-20"></div>
+                <span>Small</span>
+              </div>
+              <div class="option-card" data-margin="40">
+                <div class="margin-preview margin-40"></div>
+                <span>Big</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Merge checkbox -->
+          <div class="option-field">
+            <label class="checkbox-label">
+              <input type="checkbox" id="tool-merge" checked>
+              <span>Merge all images in one PDF</span>
+            </label>
+          </div>
+
+          <!-- Save to Library checkbox -->
+          <div class="option-field">
+            <label class="checkbox-label">
+              <input type="checkbox" id="tool-save-to-library" checked>
+              <span>Save output directly to My Docs</span>
+            </label>
+          </div>
+
+          <button type="button" class="btn btn--action btn--full" id="btn-convert-img2pdf">
+            Convert to PDF &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: COMPRESS PDF ==================== -->
+    <section id="tab-compress" class="tab-pane">
+      <!-- Empty Hero -->
+      <div class="tool-hero" id="compress-hero">
+        <h2 class="tool-hero__title">Compress PDF</h2>
+        <p class="tool-hero__subtitle">Reduce PDF file size while optimizing quality.</p>
+        <div class="tool-dropzone" id="compress-dropzone">
+          <input type="file" id="compress-file-input" accept=".pdf,application/pdf" class="file-input">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="36" height="36">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          <button type="button" class="btn btn--primary btn--md" id="btn-select-pdf">
+            Select PDF file
+          </button>
+          <span class="dropzone-hint">or drop PDF here</span>
+        </div>
+      </div>
+
+      <!-- Active Workspace -->
+      <div class="tool-workspace" id="compress-workspace" style="display: none;">
+        <div class="selected-pdf-card">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-info">
+            <div class="pdf-info__name" id="compress-name">document.pdf</div>
+            <div class="pdf-info__size" id="compress-size">0 KB</div>
+          </div>
+          <button type="button" class="btn-remove" id="btn-clear-compress-file" title="Remove file">&times;</button>
+        </div>
+
+        <div class="options-box">
+          <label class="option-label">Compression level</label>
+
+          <div class="radio-cards" id="compression-tiers">
+            <!-- Extreme -->
+            <label class="radio-card" data-tier="extreme">
+              <input type="radio" name="ext_compression_level" value="extreme" id="radio-extreme">
+              <div class="radio-card__body">
+                <div class="radio-card__title">Extreme compression</div>
+                <div class="radio-card__subtitle">Less quality, high compression</div>
+              </div>
+            </label>
+
+            <!-- Recommended (Default) -->
+            <label class="radio-card active" data-tier="recommended">
+              <input type="radio" name="ext_compression_level" value="recommended" id="radio-recommended" checked>
+              <div class="radio-card__body">
+                <div class="radio-card__title">Recommended compression</div>
+                <div class="radio-card__subtitle">Good quality, good compression</div>
+              </div>
+            </label>
+
+            <!-- Low -->
+            <label class="radio-card" data-tier="low">
+              <input type="radio" name="ext_compression_level" value="low" id="radio-low">
+              <div class="radio-card__body">
+                <div class="radio-card__title">Less compression</div>
+                <div class="radio-card__subtitle">High quality, less compression</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Save to Library checkbox -->
+          <div class="option-field" style="margin-top: 14px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="compress-save-to-library" checked>
+              <span>Save output directly to My Docs</span>
+            </label>
+          </div>
+
+          <button type="button" class="btn btn--action btn--full" id="btn-compress-pdf">
+            Compress PDF &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: IMAGE TOOLS (COMPRESS & CONVERT) ==================== -->
+    <section id="tab-imgtools" class="tab-pane">
+      <div class="tool-hero" id="imgtools-hero">
+        <h2 class="tool-hero__title">Image Compressor &amp; Converter</h2>
+        <p class="tool-hero__subtitle">Compress image file sizes and convert between JPG, PNG, and WebP.</p>
+        <div class="tool-dropzone" id="imgtools-dropzone">
+          <input type="file" id="imgtools-file-input" multiple accept="image/*" class="file-input">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="36" height="36">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <button type="button" class="btn btn--primary btn--md" id="btn-select-imgtools">
+            Select images
+          </button>
+          <span class="dropzone-hint">or drop images here</span>
+        </div>
+      </div>
+
+      <div class="tool-workspace" id="imgtools-workspace" style="display: none;">
+        <div class="workspace-header">
+          <span id="imgtools-count">0 image(s) selected</span>
+          <div class="workspace-header__actions">
+            <button type="button" class="btn btn--secondary btn--xs" id="btn-add-more-imgtools">+ Add</button>
+            <input type="file" id="imgtools-add-more" multiple accept="image/*" class="file-input">
+            <button type="button" class="btn btn--ghost btn--xs" id="btn-clear-imgtools">Clear</button>
+          </div>
+        </div>
+
+        <div class="cards-grid" id="imgtools-grid"></div>
+
+        <div class="options-box">
+          <!-- Convert Format -->
+          <div class="option-field">
+            <label class="option-label" for="imgtools-format">Convert to format</label>
+            <select id="imgtools-format" class="input-select">
+              <option value="jpeg" selected>JPG / JPEG (.jpg)</option>
+              <option value="png">PNG (.png)</option>
+              <option value="webp">WebP (.webp - Ultra Compact)</option>
+            </select>
+          </div>
+
+          <!-- Compression Quality -->
+          <div class="option-field">
+            <label class="option-label" for="imgtools-quality">Compression level</label>
+            <select id="imgtools-quality" class="input-select">
+              <option value="0.70" selected>Balanced / Recommended (70% quality)</option>
+              <option value="0.50">Maximum Compression (50% quality - Smallest size)</option>
+              <option value="0.85">High Quality (85% quality - Light compression)</option>
+              <option value="0.95">Maximum Quality (95% quality - Near lossless)</option>
+            </select>
+          </div>
+
+          <!-- Max Resolution Resize -->
+          <div class="option-field">
+            <label class="option-label" for="imgtools-resize">Max Resolution</label>
+            <select id="imgtools-resize" class="input-select">
+              <option value="original" selected>Original Resolution</option>
+              <option value="1920">Full HD (Max 1920px)</option>
+              <option value="1280">HD (Max 1280px)</option>
+              <option value="800">Web / Mobile (Max 800px)</option>
+            </select>
+          </div>
+
+          <!-- Save to Library checkbox -->
+          <div class="option-field">
+            <label class="checkbox-label">
+              <input type="checkbox" id="imgtools-save-to-library" checked>
+              <span>Save output directly to My Docs</span>
+            </label>
+          </div>
+
+          <button type="button" class="btn btn--action btn--full" id="btn-process-imgtools">
+            Compress &amp; Convert Images &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: WEBSITE UPLOAD ASSISTANT ==================== -->
+    <section id="tab-assistant" class="tab-pane">
+      <div class="assistant-header">
+        <h2 class="assistant-title">Website Upload Assistant</h2>
+        <p class="assistant-subtitle">Detect upload fields on the current tab and auto-fill them from your DocDock library.</p>
+        
+        <button type="button" class="btn btn--primary btn--full btn--scan" id="btn-scan-uploads">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          Scan Current Webpage
+        </button>
+      </div>
+
+      <!-- Page Target Info -->
+      <div id="assistant-target-info" class="assistant-target" style="display: none;">
+        <div class="target-title" id="target-page-title">Page Title</div>
+        <div class="target-url" id="target-page-url">No page scanned yet</div>
+      </div>
+
+      <!-- Detected Fields Container -->
+      <div class="assistant-section-title">Detected Upload Fields</div>
+      <div id="detected-fields-list" class="detected-fields">
+        <div class="empty-state">
+          Click <strong>Scan Current Webpage</strong> above to find file inputs on the active website.
+        </div>
+      </div>
+
+      <!-- Security Notice -->
+      <div class="security-notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>DocDock <strong>never</strong> submits forms automatically. You retain full control over when to submit.</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== DIALOG / DOCUMENT PICKER FOR UPLOAD ASSISTANT ==================== -->
+  <div class="modal" id="picker-modal" style="display: none;">
+    <div class="modal__backdrop" id="picker-backdrop"></div>
+    <div class="modal__content">
+      <div class="modal__header">
+        <h3 class="modal__title">Select Document to Fill Field</h3>
+        <button type="button" class="modal__close" id="btn-close-picker">&times;</button>
+      </div>
+      <div class="picker-field-info" id="picker-field-label">Target: Field Name</div>
+      
+      <div class="picker-list" id="picker-docs-list">
+        <!-- Injected list of user documents -->
+      </div>
+
+      <div class="picker-actions">
+        <button type="button" class="btn btn--secondary btn--sm btn--full" id="btn-cancel-picker">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PROCESSING OVERLAY ==================== -->
+  <div class="overlay" id="overlay" style="display: none;">
+    <div class="overlay__content">
+      <div class="spinner"></div>
+      <h3 class="overlay__title" id="overlay-title">Processing...</h3>
+      <p class="overlay__desc" id="overlay-desc">Working locally in browser.</p>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div class="toast" id="toast" style="display: none;">
+    <span id="toast-message">Notification message</span>
+  </div>
+
+
+  <script src="pdf-lib.min.js"></script>
+  <script>
+/**
+ * DocDock IndexedDB Document Storage Layer
+ * 100% On-Device, Private Document Storage
+ */
+
+const DB_NAME = 'DocDockDB';
+const DB_VERSION = 1;
+const STORE_NAME = 'documents';
+
+let dbInstance = null;
+
+function openDB() {
+  if (dbInstance) return Promise.resolve(dbInstance);
+
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        const store = db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+        store.createIndex('name', 'name', { unique: false });
+        store.createIndex('category', 'category', { unique: false });
+        store.createIndex('type', 'type', { unique: false });
+        store.createIndex('createdAt', 'createdAt', { unique: false });
+      }
+    };
+
+    request.onsuccess = (event) => {
+      dbInstance = event.target.result;
+      resolve(dbInstance);
+    };
+
+    request.onerror = (event) => {
+      console.error('IndexedDB open error:', event.target.error);
+      reject(event.target.error);
+    };
+  });
+}
+
+/**
+ * Add a new document to IndexedDB
+ * @param {Object} docData
+ * @param {string} docData.name - File name
+ * @param {string} docData.type - MIME type
+ * @param {number} docData.size - File size in bytes
+ * @param {ArrayBuffer} docData.data - Raw binary data
+ * @param {string} [docData.category='General'] - Category label
+ * @param {string} [docData.thumbnail=''] - Data URL thumbnail
+ * @returns {Promise<Object>} The saved document record (without raw data)
+ */
+async function addDocument(docData) {
+  const db = await openDB();
+  const id = 'doc_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+  const now = Date.now();
+
+  const record = {
+    id,
+    name: docData.name || 'Untitled Document',
+    type: docData.type || 'application/octet-stream',
+    size: docData.size || (docData.data ? docData.data.byteLength : 0),
+    category: docData.category || 'General',
+    thumbnail: docData.thumbnail || '',
+    data: docData.data, // Stored locally in IndexedDB as ArrayBuffer
+    createdAt: now,
+    updatedAt: now
+  };
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME], 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.add(record);
+
+    request.onsuccess = () => {
+      // Return metadata without heavy buffer for memory efficiency
+      const { data, ...meta } = record;
+      resolve(meta);
+    };
+
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+/**
+ * Get all document metadata (excluding heavy data blobs)
+ * @returns {Promise<Array<Object>>}
+ */
+async function getAllDocuments() {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME], 'readonly');
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.openCursor(null, 'prev');
+    const documents = [];
+
+    request.onsuccess = (event) => {
+      const cursor = event.target.result;
+      if (cursor) {
+        const val = cursor.value;
+        // Exclude raw ArrayBuffer for the list view
+        const { data, ...meta } = val;
+        documents.push(meta);
+        cursor.continue();
+      } else {
+        resolve(documents);
+      }
+    };
+
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+/**
+ * Retrieve complete document record including ArrayBuffer data
+ * @param {string} id
+ * @returns {Promise<Object|null>}
+ */
+async function getDocument(id) {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME], 'readonly');
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.get(id);
+
+    request.onsuccess = (event) => resolve(event.target.result || null);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+/**
+ * Update document metadata (name, category)
+ * @param {string} id
+ * @param {Object} updates
+ * @returns {Promise<boolean>}
+ */
+async function updateDocument(id, updates) {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME], 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const getReq = store.get(id);
+
+    getReq.onsuccess = (event) => {
+      const record = event.target.result;
+      if (!record) return reject(new Error('Document not found'));
+
+      if (updates.name) record.name = updates.name;
+      if (updates.category) record.category = updates.category;
+      record.updatedAt = Date.now();
+
+      const putReq = store.put(record);
+      putReq.onsuccess = () => resolve(true);
+      putReq.onerror = (e) => reject(e.target.error);
+    };
+
+    getReq.onerror = (e) => reject(e.target.error);
+  });
+}
+
+/**
+ * Delete a document from IndexedDB
+ * @param {string} id
+ * @returns {Promise<boolean>}
+ */
+async function deleteDocument(id) {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME], 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.delete(id);
+
+    request.onsuccess = () => resolve(true);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+/**
+ * Clear all documents from IndexedDB
+ * @returns {Promise<boolean>}
+ */
+async function clearAllDocuments() {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME], 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.clear();
+
+    request.onsuccess = () => resolve(true);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+// Export functions to global scope for extension scripts
+window.DocDockDB = {
+  openDB,
+  addDocument,
+  getAllDocuments,
+  getDocument,
+  updateDocument,
+  deleteDocument,
+  clearAllDocuments
+};
+
+  </script>
+  <script>
+/**
+ * DocDock Client-Side Processing Engine
+ * 100% In-Browser Image-to-PDF Conversion and PDF Compression
+ * Powered by PDF-Lib and HTML5 Canvas API
+ */
+
+const PAGE_SIZES = {
+  A4: { width: 595.28, height: 841.89 },
+  letter: { width: 612.0, height: 792.0 }
+};
+
+const COMPRESSION_PROFILES = {
+  extreme: {
+    maxDimension: 900,
+    jpegQuality: 0.45,
+    downsampleThreshold: 1000,
+    description: 'Less quality, high compression'
+  },
+  recommended: {
+    maxDimension: 1600,
+    jpegQuality: 0.70,
+    downsampleThreshold: 1800,
+    description: 'Good quality, good compression'
+  },
+  low: {
+    maxDimension: 2400,
+    jpegQuality: 0.85,
+    downsampleThreshold: 2600,
+    description: 'High quality, less compression'
+  }
+};
+
+/**
+ * Load an image source into an HTMLImageElement
+ */
+function loadImageElement(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = (e) => reject(new Error('Failed to load image in canvas'));
+    img.src = src;
+  });
+}
+
+/**
+ * Process and rotate an image using Canvas, returning JPEG Uint8Array
+ */
+async function processImageToJpeg(fileOrBlob, rotation = 0, maxDim = null, quality = 0.90) {
+  let objectUrl = null;
+  if (typeof fileOrBlob === 'string') {
+    objectUrl = fileOrBlob;
+  } else if (fileOrBlob instanceof Blob || fileOrBlob instanceof File) {
+    objectUrl = URL.createObjectURL(fileOrBlob);
+  } else if (fileOrBlob instanceof ArrayBuffer || fileOrBlob instanceof Uint8Array) {
+    const blob = new Blob([fileOrBlob]);
+    objectUrl = URL.createObjectURL(blob);
+  } else {
+    throw new Error('Unsupported image input type');
+  }
+
+  try {
+    const img = await loadImageElement(objectUrl);
+    let origW = img.naturalWidth || img.width;
+    let origH = img.naturalHeight || img.height;
+
+    // Apply max dimension constraint if requested
+    let targetW = origW;
+    let targetH = origH;
+    if (maxDim && Math.max(origW, origH) > maxDim) {
+      const ratio = maxDim / Math.max(origW, origH);
+      targetW = Math.max(1, Math.round(origW * ratio));
+      targetH = Math.max(1, Math.round(origH * ratio));
+    }
+
+    const rad = ((rotation % 360) * Math.PI) / 180;
+    const isRotated90or270 = (rotation % 180) !== 0;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = isRotated90or270 ? targetH : targetW;
+    canvas.height = isRotated90or270 ? targetW : targetH;
+
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(rad);
+    ctx.drawImage(img, -targetW / 2, -targetH / 2, targetW, targetH);
+
+    const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', quality));
+    const arrayBuffer = await blob.arrayBuffer();
+    return {
+      bytes: new Uint8Array(arrayBuffer),
+      width: canvas.width,
+      height: canvas.height
+    };
+  } finally {
+    if (objectUrl && !objectUrl.startsWith('data:')) {
+      URL.revokeObjectURL(objectUrl);
+    }
+  }
+}
+
+/**
+ * Convert images to PDF completely client-side in the browser
+ */
+async function clientConvertImagesToPdf(images, options = {}) {
+  const {
+    orientation = 'portrait',
+    pageSize = 'fit',
+    margin = 0,
+    merge = true,
+    quality = 0.90
+  } = options;
+
+  if (!images || images.length === 0) {
+    throw new Error('No images provided for conversion.');
+  }
+
+  const { PDFDocument } = window.PDFLib;
+
+  async function addImagePage(imageItem, targetDoc) {
+    const rotation = Number(imageItem.rotation || 0) % 360;
+    const processed = await processImageToJpeg(imageItem.file || imageItem.buffer, rotation, null, quality);
+
+    let pageWidth, pageHeight;
+    const imgW = processed.width;
+    const imgH = processed.height;
+
+    if (pageSize === 'fit') {
+      const isImgLandscape = imgW > imgH;
+      if (orientation === 'landscape' && !isImgLandscape) {
+        pageWidth = imgH;
+        pageHeight = imgW;
+      } else if (orientation === 'portrait' && isImgLandscape) {
+        pageWidth = imgH;
+        pageHeight = imgW;
+      } else {
+        pageWidth = imgW;
+        pageHeight = imgH;
+      }
+    } else {
+      const base = PAGE_SIZES[pageSize] || PAGE_SIZES.A4;
+      if (orientation === 'landscape') {
+        pageWidth = Math.max(base.width, base.height);
+        pageHeight = Math.min(base.width, base.height);
+      } else {
+        pageWidth = Math.min(base.width, base.height);
+        pageHeight = Math.max(base.width, base.height);
+      }
+    }
+
+    const page = targetDoc.addPage([pageWidth, pageHeight]);
+    const embedded = await targetDoc.embedJpg(processed.bytes);
+
+    const marginNum = Math.max(0, Number(margin) || 0);
+    const availW = Math.max(10, pageWidth - marginNum * 2);
+    const availH = Math.max(10, pageHeight - marginNum * 2);
+
+    const scale = Math.min(availW / embedded.width, availH / embedded.height);
+    const drawW = embedded.width * scale;
+    const drawH = embedded.height * scale;
+
+    const x = marginNum + (availW - drawW) / 2;
+    const y = marginNum + (availH - drawH) / 2;
+
+    page.drawImage(embedded, {
+      x,
+      y,
+      width: drawW,
+      height: drawH
+    });
+  }
+
+  if (merge) {
+    const doc = await PDFDocument.create();
+    for (const img of images) {
+      await addImagePage(img, doc);
+    }
+    const pdfBytes = await doc.save({ useObjectStreams: true });
+    return {
+      mergedBuffer: pdfBytes.buffer,
+      pageCount: images.length
+    };
+  } else {
+    const files = [];
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i];
+      const doc = await PDFDocument.create();
+      await addImagePage(img, doc);
+      const pdfBytes = await doc.save({ useObjectStreams: true });
+      const baseName = (img.name || img.filename || `image_${i + 1}`).replace(/\.[^/.]+$/, '');
+      files.push({
+        name: `${baseName}.pdf`,
+        buffer: pdfBytes.buffer
+      });
+    }
+    return { files };
+  }
+}
+
+/**
+ * Compress PDF completely client-side in the browser
+ */
+async function clientCompressPdf(pdfArrayBuffer, level = 'recommended') {
+  const profile = COMPRESSION_PROFILES[level] || COMPRESSION_PROFILES.recommended;
+  const originalSize = pdfArrayBuffer.byteLength;
+
+  const { PDFDocument, PDFName, PDFNumber, PDFRawStream } = window.PDFLib;
+  const doc = await PDFDocument.load(pdfArrayBuffer, { ignoreEncryption: true });
+  const context = doc.context;
+
+  let imagesOptimized = 0;
+
+  for (const [ref, obj] of context.enumerateIndirectObjects()) {
+    if (obj instanceof PDFRawStream) {
+      const dict = obj.dict;
+      const subtype = dict.get(PDFName.of('Subtype'));
+
+      if (subtype && subtype.asString() === '/Image') {
+        const filter = dict.get(PDFName.of('Filter'));
+        const filterStr = filter ? filter.asString() : '';
+
+        // Handle JPEG image streams (/DCTDecode)
+        if (filterStr === '/DCTDecode' && obj.contents && obj.contents.length > 5000) {
+          try {
+            const rawBytes = obj.contents;
+            const recompressed = await processImageToJpeg(
+              rawBytes,
+              0,
+              profile.maxDimension,
+              profile.jpegQuality
+            );
+
+            if (recompressed && recompressed.bytes.length < rawBytes.length) {
+              obj.contents = recompressed.bytes;
+              dict.set(PDFName.of('Length'), PDFNumber.of(recompressed.bytes.length));
+              dict.set(PDFName.of('Width'), PDFNumber.of(recompressed.width));
+              dict.set(PDFName.of('Height'), PDFNumber.of(recompressed.height));
+              imagesOptimized++;
+            }
+          } catch (e) {
+            // Skip problematic image streams safely
+          }
+        }
+      }
+    }
+  }
+
+  // Strip non-essential metadata
+  try {
+    const catalog = doc.catalog;
+    catalog.delete(PDFName.of('Metadata'));
+    catalog.delete(PDFName.of('PieceInfo'));
+    catalog.delete(PDFName.of('StructTreeRoot'));
+  } catch {}
+
+  // Strip thumbnails from pages
+  try {
+    const pages = doc.getPages();
+    for (const page of pages) {
+      page.node.delete(PDFName.of('Thumb'));
+      page.node.delete(PDFName.of('PieceInfo'));
+    }
+  } catch {}
+
+  // Compacting object streams
+  const compressedBytes = await doc.save({
+    useObjectStreams: true,
+    addDefaultPage: false,
+    updateFieldAppearances: false
+  });
+
+  const compressedBuffer = compressedBytes.buffer;
+  const compressedSize = compressedBuffer.byteLength;
+  const savedBytes = Math.max(0, originalSize - compressedSize);
+  const savingsPercent = originalSize > 0 ? Math.round((savedBytes / originalSize) * 1000) / 10 : 0;
+
+  return {
+    compressedBuffer,
+    originalSize,
+    compressedSize,
+    savedBytes,
+    savingsPercent,
+    imagesOptimized,
+    level,
+    description: profile.description
+  };
+}
+
+/**
+ * Compress and convert an image file/blob to target format (JPEG, PNG, WebP)
+ */
+async function clientCompressAndConvertImage(fileOrBlob, options = {}) {
+  const {
+    format = 'jpeg', // 'jpeg' | 'png' | 'webp'
+    quality = 0.75,  // 0.1 to 1.0
+    maxDimension = null
+  } = options;
+
+  let objectUrl = null;
+  let originalSize = 0;
+  let originalName = 'image';
+
+  if (fileOrBlob instanceof File) {
+    originalSize = fileOrBlob.size;
+    originalName = fileOrBlob.name;
+    objectUrl = URL.createObjectURL(fileOrBlob);
+  } else if (fileOrBlob instanceof Blob) {
+    originalSize = fileOrBlob.size;
+    objectUrl = URL.createObjectURL(fileOrBlob);
+  } else if (fileOrBlob instanceof ArrayBuffer || fileOrBlob instanceof Uint8Array) {
+    originalSize = fileOrBlob.byteLength;
+    const blob = new Blob([fileOrBlob]);
+    objectUrl = URL.createObjectURL(blob);
+  } else {
+    throw new Error('Unsupported image input type');
+  }
+
+  try {
+    const img = await loadImageElement(objectUrl);
+    let origW = img.naturalWidth || img.width;
+    let origH = img.naturalHeight || img.height;
+
+    let targetW = origW;
+    let targetH = origH;
+    if (maxDimension && Math.max(origW, origH) > maxDimension) {
+      const ratio = maxDimension / Math.max(origW, origH);
+      targetW = Math.max(1, Math.round(origW * ratio));
+      targetH = Math.max(1, Math.round(origH * ratio));
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.width = targetW;
+    canvas.height = targetH;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    const mimeMap = {
+      jpeg: 'image/jpeg',
+      jpg: 'image/jpeg',
+      png: 'image/png',
+      webp: 'image/webp'
+    };
+    const targetMime = mimeMap[format.toLowerCase()] || 'image/jpeg';
+    const ext = format.toLowerCase() === 'jpeg' ? 'jpg' : format.toLowerCase();
+
+    if (targetMime === 'image/jpeg') {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, targetW, targetH);
+    }
+
+    ctx.drawImage(img, 0, 0, targetW, targetH);
+
+    const outBlob = await new Promise((res) => canvas.toBlob(res, targetMime, quality));
+    const arrayBuffer = await outBlob.arrayBuffer();
+    const newSize = arrayBuffer.byteLength;
+    const savedBytes = Math.max(0, originalSize - newSize);
+    const savingsPercent = originalSize > 0 ? Math.round((savedBytes / originalSize) * 1000) / 10 : 0;
+
+    const baseName = originalName.replace(/\.[^/.]+$/, '');
+    const outFilename = `${baseName}_converted.${ext}`;
+
+    return {
+      buffer: arrayBuffer,
+      blob: outBlob,
+      originalSize,
+      newSize,
+      savedBytes,
+      savingsPercent,
+      format: ext,
+      mimeType: targetMime,
+      filename: outFilename,
+      width: targetW,
+      height: targetH
+    };
+  } finally {
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+  }
+}
+
+/**
+ * Generate a thumbnail data URL for a file
+ */
+async function generateThumbnail(fileOrBuffer, type) {
+  try {
+    if (type.startsWith('image/')) {
+      const { bytes } = await processImageToJpeg(fileOrBuffer, 0, 160, 0.7);
+      const blob = new Blob([bytes], { type: 'image/jpeg' });
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
+    }
+  } catch {}
+  return '';
+}
+
+window.DocDockEngine = {
+  clientConvertImagesToPdf,
+  clientCompressPdf,
+  clientCompressAndConvertImage,
+  generateThumbnail,
+  COMPRESSION_PROFILES,
+  PAGE_SIZES
+};
+
+  </script>
+  <script>
+// Chrome API stubs for web deployment
+if (typeof chrome === 'undefined' || !chrome.tabs) {
+  window.chrome = {
+    runtime: {},
+    sidePanel: { setPanelBehavior: function() {} },
+    tabs: { query: function() { return Promise.resolve([]); }, sendMessage: function() { return Promise.resolve(null); } },
+    scripting: { executeScript: function() { return Promise.resolve(); } }
+  };
+}
+/**
+ * DocDock Chrome Extension - Side Panel Application Controller
+ * Fully CSP-compliant (No inline event handlers)
+ * Reuses DocDock design system, IndexedDB local storage, in-browser engine, and Upload Assistant.
+ */
+
+// Application State
+const appState = {
+  currentTab: 'docs',
+  allDocs: [],
+  img2pdf: {
+    files: [], // Array of { id, file, name, size, url, rotation }
+    orientation: 'portrait',
+    pageSize: 'fit',
+    margin: 0,
+    merge: true
+  },
+  compress: {
+    file: null, // { file, name, size, buffer }
+    level: 'recommended'
+  },
+  imgtools: {
+    files: [] // Array of { id, file, name, size, url }
+  },
+  assistant: {
+    currentTabId: null,
+    fields: [],
+    selectedFieldId: null
+  }
+};
+
+// ================= INITIALIZATION =================
+document.addEventListener('DOMContentLoaded', async () => {
+  setupNavigation();
+  setupDocsTab();
+  setupImg2PdfTab();
+  setupCompressTab();
+  setupImgToolsTab();
+  setupAssistantTab();
+  await refreshDocsList();
+});
+
+// ================= TAB NAVIGATION =================
+function setupNavigation() {
+  const nav = document.getElementById('main-nav');
+  if (nav) {
+    nav.addEventListener('click', (e) => {
+      const btn = e.target.closest('.nav__btn');
+      if (btn && btn.dataset.tab) {
+        switchTab(btn.dataset.tab);
+      }
+    });
+  }
+}
+
+function switchTab(tabId) {
+  appState.currentTab = tabId;
+
+  document.querySelectorAll('.tab-pane').forEach((pane) => pane.classList.remove('active'));
+  document.querySelectorAll('.nav__btn').forEach((btn) => btn.classList.remove('active'));
+
+  const activePane = document.getElementById(`tab-${tabId}`);
+  const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+
+  if (activePane) activePane.classList.add('active');
+  if (activeBtn) activeBtn.classList.add('active');
+
+  if (tabId === 'docs') {
+    refreshDocsList();
+  } else if (tabId === 'assistant') {
+    scanActiveTabForUploads();
+  }
+}
+
+// ================= TAB 1: MY DOCUMENTS (INDEXEDDB) =================
+function setupDocsTab() {
+  const dropzone = document.getElementById('docs-import-dropzone');
+  const input = document.getElementById('docs-import-input');
+  const browseBtn = document.getElementById('btn-browse-docs');
+  const searchInput = document.getElementById('docs-search-input');
+  const categoryFilter = document.getElementById('docs-category-filter');
+  const clearAllBtn = document.getElementById('btn-clear-all-docs');
+  const docsContainer = document.getElementById('docs-items-container');
+
+  if (browseBtn && input) {
+    browseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      input.click();
+    });
+  }
+
+  if (dropzone && input) {
+    ['dragenter', 'dragover'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files) {
+        importFilesToLibrary(e.dataTransfer.files);
+      }
+    });
+
+    dropzone.addEventListener('click', () => {
+      input.click();
+    });
+
+    input.addEventListener('change', (e) => {
+      if (e.target.files) {
+        importFilesToLibrary(e.target.files);
+      }
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => filterDocuments());
+  }
+
+  if (categoryFilter) {
+    categoryFilter.addEventListener('change', () => filterDocuments());
+  }
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', () => confirmClearAllDocs());
+  }
+
+  // Event delegation for document items
+  if (docsContainer) {
+    docsContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+
+      if (action === 'download') {
+        downloadDocument(id);
+      } else if (action === 'rename') {
+        renameDocumentPrompt(id, name);
+      } else if (action === 'delete') {
+        deleteDocumentItem(id);
+      }
+    });
+  }
+}
+
+async function importFilesToLibrary(fileList) {
+  const files = Array.from(fileList);
+  if (files.length === 0) return;
+
+  const targetCategory = document.getElementById('import-target-category').value || 'General';
+  showOverlay('Importing documents...', 'Saving files to secure on-device IndexedDB storage');
+
+  try {
+    for (const file of files) {
+      const buffer = await file.arrayBuffer();
+      let thumbnail = '';
+      if (file.type.startsWith('image/')) {
+        thumbnail = await window.DocDockEngine.generateThumbnail(file, file.type);
+      }
+
+      await window.DocDockDB.addDocument({
+        name: file.name,
+        type: file.type || 'application/octet-stream',
+        size: file.size,
+        data: buffer,
+        category: targetCategory,
+        thumbnail
+      });
+    }
+
+    hideOverlay();
+    showToast(`Successfully imported ${files.length} document(s) to My Docs!`);
+    await refreshDocsList();
+  } catch (err) {
+    hideOverlay();
+    console.error('Import error:', err);
+    showToast('Failed to import: ' + err.message);
+  }
+}
+
+async function refreshDocsList() {
+  try {
+    appState.allDocs = await window.DocDockDB.getAllDocuments();
+    filterDocuments();
+  } catch (err) {
+    console.error('Failed to load documents:', err);
+  }
+}
+
+function filterDocuments() {
+  const query = (document.getElementById('docs-search-input')?.value || '').toLowerCase().trim();
+  const category = document.getElementById('docs-category-filter')?.value || 'ALL';
+
+  const filtered = appState.allDocs.filter((doc) => {
+    const matchesQuery = !query || doc.name.toLowerCase().includes(query);
+    const matchesCategory = category === 'ALL' || doc.category === category;
+    return matchesQuery && matchesCategory;
+  });
+
+  renderDocsList(filtered);
+}
+
+function renderDocsList(docs) {
+  const container = document.getElementById('docs-items-container');
+  const countLabel = document.getElementById('docs-count-label');
+  if (countLabel) {
+    countLabel.textContent = `${docs.length} document${docs.length === 1 ? '' : 's'} stored`;
+  }
+
+  if (!container) return;
+
+  if (docs.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        No documents found. Drag & drop PDF or image files above to securely store them locally.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = docs
+    .map(
+      (doc) => `
+    <div class="doc-item" id="doc-${doc.id}">
+      <div class="doc-item__icon">
+        ${
+          doc.thumbnail
+            ? `<img src="${doc.thumbnail}" alt="Thumbnail">`
+            : doc.type.includes('pdf')
+            ? 'PDF'
+            : 'IMG'
+        }
+      </div>
+      <div class="doc-item__info">
+        <div class="doc-item__name" title="${escapeHtml(doc.name)}">${escapeHtml(doc.name)}</div>
+        <div class="doc-item__meta">
+          <span class="category-tag category-tag--${escapeHtml(doc.category)}">${escapeHtml(doc.category)}</span>
+          <span>${formatBytes(doc.size)}</span>
+          <span>â€¢</span>
+          <span>${new Date(doc.createdAt).toLocaleDateString()}</span>
+        </div>
+      </div>
+      <div class="doc-item__actions">
+        <button type="button" class="icon-btn" data-action="download" data-id="${doc.id}" title="Download file">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
+        <button type="button" class="icon-btn" data-action="rename" data-id="${doc.id}" data-name="${escapeAttr(doc.name)}" title="Rename">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+        </button>
+        <button type="button" class="icon-btn icon-btn--delete" data-action="delete" data-id="${doc.id}" title="Delete">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  `
+    )
+    .join('');
+}
+
+async function downloadDocument(id) {
+  try {
+    const doc = await window.DocDockDB.getDocument(id);
+    if (!doc || !doc.data) return showToast('Document data unavailable');
+
+    const blob = new Blob([doc.data], { type: doc.type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = doc.name;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast(`Downloaded ${doc.name}`);
+  } catch (err) {
+    showToast('Download error: ' + err.message);
+  }
+}
+
+async function renameDocumentPrompt(id, currentName) {
+  const newName = prompt('Enter new document name:', currentName);
+  if (newName && newName.trim() && newName !== currentName) {
+    await window.DocDockDB.updateDocument(id, { name: newName.trim() });
+    showToast('Document renamed.');
+    await refreshDocsList();
+  }
+}
+
+async function deleteDocumentItem(id) {
+  if (confirm('Delete this document from local storage?')) {
+    await window.DocDockDB.deleteDocument(id);
+    showToast('Document deleted.');
+    await refreshDocsList();
+  }
+}
+
+async function confirmClearAllDocs() {
+  if (confirm('Are you sure you want to delete ALL documents stored in DocDock? This cannot be undone.')) {
+    await window.DocDockDB.clearAllDocuments();
+    showToast('All documents cleared.');
+    await refreshDocsList();
+  }
+}
+
+// ================= TAB 2: JPG TO PDF =================
+function setupImg2PdfTab() {
+  const dropzone = document.getElementById('img2pdf-dropzone');
+  const input = document.getElementById('img2pdf-file-input');
+  const selectBtn = document.getElementById('btn-select-img');
+  const addMoreInput = document.getElementById('img2pdf-add-more');
+  const addMoreBtn = document.getElementById('btn-add-more-img');
+  const clearBtn = document.getElementById('btn-clear-img');
+  const convertBtn = document.getElementById('btn-convert-img2pdf');
+  const grid = document.getElementById('img2pdf-grid');
+  const orientationBox = document.getElementById('orientation-cards');
+  const marginBox = document.getElementById('margin-cards');
+
+  if (selectBtn && input) {
+    selectBtn.addEventListener('click', () => input.click());
+  }
+
+  if (addMoreBtn && addMoreInput) {
+    addMoreBtn.addEventListener('click', () => addMoreInput.click());
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => clearToolImages());
+  }
+
+  if (convertBtn) {
+    convertBtn.addEventListener('click', () => executeImageToPdf());
+  }
+
+  if (dropzone && input) {
+    ['dragenter', 'dragover'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files) {
+        handleToolImages(e.dataTransfer.files);
+      }
+    });
+
+    input.addEventListener('change', (e) => {
+      if (e.target.files) handleToolImages(e.target.files);
+    });
+
+    if (addMoreInput) {
+      addMoreInput.addEventListener('change', (e) => {
+        if (e.target.files) handleToolImages(e.target.files);
+      });
+    }
+  }
+
+  // Orientation selector
+  if (orientationBox) {
+    orientationBox.addEventListener('click', (e) => {
+      const card = e.target.closest('[data-orientation]');
+      if (card) {
+        setToolOrientation(card.dataset.orientation);
+      }
+    });
+  }
+
+  // Margin selector
+  if (marginBox) {
+    marginBox.addEventListener('click', (e) => {
+      const card = e.target.closest('[data-margin]');
+      if (card) {
+        setToolMargin(Number(card.dataset.margin));
+      }
+    });
+  }
+
+  // Grid actions (rotate, remove)
+  if (grid) {
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      if (action === 'rotate') {
+        rotateToolImage(id);
+      } else if (action === 'remove') {
+        removeToolImage(id);
+      }
+    });
+  }
+}
+
+function handleToolImages(fileList) {
+  const images = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
+  if (images.length === 0) return alert('Please select valid image files (JPG, PNG, WebP).');
+
+  images.forEach((file) => {
+    appState.img2pdf.files.push({
+      id: 'img_' + Math.random().toString(36).substr(2, 8),
+      file,
+      name: file.name,
+      size: formatBytes(file.size),
+      url: URL.createObjectURL(file),
+      rotation: 0
+    });
+  });
+
+  renderToolImages();
+  document.getElementById('img2pdf-hero').style.display = 'none';
+  document.getElementById('img2pdf-workspace').style.display = 'flex';
+}
+
+function renderToolImages() {
+  const grid = document.getElementById('img2pdf-grid');
+  const countSpan = document.getElementById('img2pdf-count');
+  const files = appState.img2pdf.files;
+  if (countSpan) countSpan.textContent = `${files.length} image(s)`;
+
+  if (files.length === 0) {
+    document.getElementById('img2pdf-hero').style.display = 'block';
+    document.getElementById('img2pdf-workspace').style.display = 'none';
+    return;
+  }
+
+  if (grid) {
+    grid.innerHTML = files
+      .map(
+        (item) => `
+      <div class="img-card">
+        <div class="img-card__preview">
+          <img id="img-thumb-${item.id}" src="${item.url}" alt="${escapeHtml(item.name)}" style="transform: rotate(${item.rotation}deg);">
+        </div>
+        <div class="img-card__name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+        <div class="img-card__actions">
+          <button type="button" class="btn btn--secondary btn--xs" data-action="rotate" data-id="${item.id}">â†» 90Â°</button>
+          <button type="button" class="btn btn--ghost btn--xs" data-action="remove" data-id="${item.id}">âœ•</button>
+        </div>
+      </div>
+    `
+      )
+      .join('');
+  }
+}
+
+function rotateToolImage(id) {
+  const item = appState.img2pdf.files.find((f) => f.id === id);
+  if (!item) return;
+  item.rotation = (item.rotation + 90) % 360;
+  const el = document.getElementById(`img-thumb-${id}`);
+  if (el) el.style.transform = `rotate(${item.rotation}deg)`;
+}
+
+function removeToolImage(id) {
+  const idx = appState.img2pdf.files.findIndex((f) => f.id === id);
+  if (idx !== -1) {
+    URL.revokeObjectURL(appState.img2pdf.files[idx].url);
+    appState.img2pdf.files.splice(idx, 1);
+    renderToolImages();
+  }
+}
+
+function clearToolImages() {
+  appState.img2pdf.files.forEach((f) => URL.revokeObjectURL(f.url));
+  appState.img2pdf.files = [];
+  renderToolImages();
+}
+
+function setToolOrientation(orientation) {
+  appState.img2pdf.orientation = orientation;
+  document.querySelectorAll('#orientation-cards [data-orientation]').forEach((el) => {
+    el.classList.toggle('active', el.dataset.orientation === orientation);
+  });
+}
+
+function setToolMargin(margin) {
+  appState.img2pdf.margin = margin;
+  document.querySelectorAll('#margin-cards [data-margin]').forEach((el) => {
+    el.classList.toggle('active', Number(el.dataset.margin) === margin);
+  });
+}
+
+async function executeImageToPdf() {
+  const files = appState.img2pdf.files;
+  if (files.length === 0) return;
+
+  const pageSize = document.getElementById('tool-pagesize').value;
+  const merge = document.getElementById('tool-merge').checked;
+  const saveToLibrary = document.getElementById('tool-save-to-library').checked;
+
+  showOverlay('Converting to PDF...', 'Rendering pages and embedding images locally');
+
+  try {
+    const result = await window.DocDockEngine.clientConvertImagesToPdf(files, {
+      orientation: appState.img2pdf.orientation,
+      pageSize,
+      margin: appState.img2pdf.margin,
+      merge
+    });
+
+    hideOverlay();
+
+    if (merge && result.mergedBuffer) {
+      const filename = `docdock_images_${Date.now()}.pdf`;
+      const blob = new Blob([result.mergedBuffer], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      if (saveToLibrary) {
+        await window.DocDockDB.addDocument({
+          name: filename,
+          type: 'application/pdf',
+          size: result.mergedBuffer.byteLength,
+          data: result.mergedBuffer,
+          category: 'General'
+        });
+        showToast('PDF created, downloaded, and saved to My Docs!');
+      } else {
+        showToast('PDF successfully created and downloaded!');
+      }
+    } else if (result.files) {
+      for (const f of result.files) {
+        const blob = new Blob([f.buffer], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = f.name;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        if (saveToLibrary) {
+          await window.DocDockDB.addDocument({
+            name: f.name,
+            type: 'application/pdf',
+            size: f.buffer.byteLength,
+            data: f.buffer,
+            category: 'General'
+          });
+        }
+      }
+      showToast(`Created and downloaded ${result.files.length} PDFs!`);
+    }
+  } catch (err) {
+    hideOverlay();
+    alert('Conversion error: ' + err.message);
+  }
+}
+
+// ================= TAB 3: COMPRESS PDF =================
+function setupCompressTab() {
+  const dropzone = document.getElementById('compress-dropzone');
+  const input = document.getElementById('compress-file-input');
+  const selectBtn = document.getElementById('btn-select-pdf');
+  const clearBtn = document.getElementById('btn-clear-compress-file');
+  const compressBtn = document.getElementById('btn-compress-pdf');
+  const tiersContainer = document.getElementById('compression-tiers');
+
+  if (selectBtn && input) {
+    selectBtn.addEventListener('click', () => input.click());
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => clearToolCompress());
+  }
+
+  if (compressBtn) {
+    compressBtn.addEventListener('click', () => executeCompressPdf());
+  }
+
+  if (dropzone && input) {
+    ['dragenter', 'dragover'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleCompressPdfFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    input.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleCompressPdfFile(e.target.files[0]);
+      }
+    });
+  }
+
+  if (tiersContainer) {
+    tiersContainer.addEventListener('click', (e) => {
+      const card = e.target.closest('[data-tier]');
+      if (card) {
+        setCompressionTier(card.dataset.tier);
+      }
+    });
+  }
+}
+
+async function handleCompressPdfFile(file) {
+  if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+    return alert('Please select a valid PDF file.');
+  }
+
+  const buffer = await file.arrayBuffer();
+  appState.compress.file = {
+    file,
+    name: file.name,
+    size: file.size,
+    buffer
+  };
+
+  document.getElementById('compress-name').textContent = file.name;
+  document.getElementById('compress-size').textContent = formatBytes(file.size);
+
+  document.getElementById('compress-hero').style.display = 'none';
+  document.getElementById('compress-workspace').style.display = 'flex';
+}
+
+function clearToolCompress() {
+  appState.compress.file = null;
+  document.getElementById('compress-hero').style.display = 'block';
+  document.getElementById('compress-workspace').style.display = 'none';
+}
+
+function setCompressionTier(tier) {
+  appState.compress.level = tier;
+  document.querySelectorAll('#compression-tiers .radio-card').forEach((card) => {
+    const input = card.querySelector('input');
+    const isTarget = card.dataset.tier === tier;
+    card.classList.toggle('active', isTarget);
+    if (input) input.checked = isTarget;
+  });
+}
+
+async function executeCompressPdf() {
+  if (!appState.compress.file) return;
+
+  const saveToLibrary = document.getElementById('compress-save-to-library').checked;
+  showOverlay('Compressing PDF...', 'Downsampling embedded images and deflating streams');
+
+  try {
+    const result = await window.DocDockEngine.clientCompressPdf(
+      appState.compress.file.buffer,
+      appState.compress.level
+    );
+
+    hideOverlay();
+
+    const filename = `${appState.compress.file.name.replace(/\.pdf$/i, '')}_compressed.pdf`;
+    const blob = new Blob([result.compressedBuffer], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    if (saveToLibrary) {
+      await window.DocDockDB.addDocument({
+        name: filename,
+        type: 'application/pdf',
+        size: result.compressedBuffer.byteLength,
+        data: result.compressedBuffer,
+        category: 'General'
+      });
+    }
+
+    showToast(
+      `Compressed by ${result.savingsPercent}%! (Saved ${formatBytes(result.savedBytes)})`
+    );
+  } catch (err) {
+    hideOverlay();
+    alert('Compression error: ' + err.message);
+  }
+}
+
+// ================= TAB 4: IMAGE TOOLS (COMPRESS & CONVERT) =================
+function setupImgToolsTab() {
+  const dropzone = document.getElementById('imgtools-dropzone');
+  const input = document.getElementById('imgtools-file-input');
+  const selectBtn = document.getElementById('btn-select-imgtools');
+  const addMoreInput = document.getElementById('imgtools-add-more');
+  const addMoreBtn = document.getElementById('btn-add-more-imgtools');
+  const clearBtn = document.getElementById('btn-clear-imgtools');
+  const processBtn = document.getElementById('btn-process-imgtools');
+  const grid = document.getElementById('imgtools-grid');
+
+  if (selectBtn && input) {
+    selectBtn.addEventListener('click', () => input.click());
+  }
+
+  if (addMoreBtn && addMoreInput) {
+    addMoreBtn.addEventListener('click', () => addMoreInput.click());
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => clearToolImgTools());
+  }
+
+  if (processBtn) {
+    processBtn.addEventListener('click', () => executeProcessImgTools());
+  }
+
+  if (dropzone && input) {
+    ['dragenter', 'dragover'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach((evt) => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files) {
+        handleToolImgToolsFiles(e.dataTransfer.files);
+      }
+    });
+
+    input.addEventListener('change', (e) => {
+      if (e.target.files) handleToolImgToolsFiles(e.target.files);
+    });
+
+    if (addMoreInput) {
+      addMoreInput.addEventListener('change', (e) => {
+        if (e.target.files) handleToolImgToolsFiles(e.target.files);
+      });
+    }
+  }
+
+  if (grid) {
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="remove"]');
+      if (btn && btn.dataset.id) {
+        removeToolImgTools(btn.dataset.id);
+      }
+    });
+  }
+}
+
+function handleToolImgToolsFiles(fileList) {
+  const images = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
+  if (images.length === 0) return alert('Please select valid image files.');
+
+  images.forEach((file) => {
+    appState.imgtools.files.push({
+      id: 'imgtool_' + Math.random().toString(36).substr(2, 8),
+      file,
+      name: file.name,
+      size: formatBytes(file.size),
+      url: URL.createObjectURL(file)
+    });
+  });
+
+  renderToolImgTools();
+  document.getElementById('imgtools-hero').style.display = 'none';
+  document.getElementById('imgtools-workspace').style.display = 'flex';
+}
+
+function renderToolImgTools() {
+  const grid = document.getElementById('imgtools-grid');
+  const countSpan = document.getElementById('imgtools-count');
+  const files = appState.imgtools.files;
+  if (countSpan) countSpan.textContent = `${files.length} image(s) selected`;
+
+  if (files.length === 0) {
+    document.getElementById('imgtools-hero').style.display = 'block';
+    document.getElementById('imgtools-workspace').style.display = 'none';
+    return;
+  }
+
+  if (grid) {
+    grid.innerHTML = files
+      .map(
+        (item) => `
+      <div class="img-card">
+        <div class="img-card__preview">
+          <img src="${item.url}" alt="${escapeHtml(item.name)}">
+        </div>
+        <div class="img-card__name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+        <div style="font-size: 10px; color: var(--text-muted);">${item.size}</div>
+        <div class="img-card__actions">
+          <span style="font-size: 10px; font-weight: 600; color: var(--primary); text-transform: uppercase;">Ready</span>
+          <button type="button" class="btn btn--ghost btn--xs" data-action="remove" data-id="${item.id}">âœ•</button>
+        </div>
+      </div>
+    `
+      )
+      .join('');
+  }
+}
+
+function removeToolImgTools(id) {
+  const idx = appState.imgtools.files.findIndex((f) => f.id === id);
+  if (idx !== -1) {
+    URL.revokeObjectURL(appState.imgtools.files[idx].url);
+    appState.imgtools.files.splice(idx, 1);
+    renderToolImgTools();
+  }
+}
+
+function clearToolImgTools() {
+  appState.imgtools.files.forEach((f) => URL.revokeObjectURL(f.url));
+  appState.imgtools.files = [];
+  renderToolImgTools();
+}
+
+async function executeProcessImgTools() {
+  const files = appState.imgtools.files;
+  if (files.length === 0) return;
+
+  const format = document.getElementById('imgtools-format')?.value || 'jpeg';
+  const quality = parseFloat(document.getElementById('imgtools-quality')?.value || '0.70');
+  const resizeVal = document.getElementById('imgtools-resize')?.value || 'original';
+  const maxDimension = resizeVal === 'original' ? null : parseInt(resizeVal, 10);
+  const saveToLibrary = document.getElementById('imgtools-save-to-library')?.checked;
+
+  showOverlay('Processing images...', 'Compressing and converting formats locally in browser');
+
+  let totalOriginal = 0;
+  let totalNew = 0;
+
+  try {
+    for (const item of files) {
+      const result = await window.DocDockEngine.clientCompressAndConvertImage(item.file, {
+        format,
+        quality,
+        maxDimension
+      });
+
+      totalOriginal += result.originalSize;
+      totalNew += result.newSize;
+
+      // Download converted/compressed image
+      const url = URL.createObjectURL(result.blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = result.filename;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      if (saveToLibrary) {
+        await window.DocDockDB.addDocument({
+          name: result.filename,
+          type: result.mimeType,
+          size: result.newSize,
+          data: result.buffer,
+          category: 'General'
+        });
+      }
+    }
+
+    hideOverlay();
+    const overallSaved = Math.max(0, totalOriginal - totalNew);
+    const overallPercent = totalOriginal > 0 ? Math.round((overallSaved / totalOriginal) * 1000) / 10 : 0;
+
+    showToast(
+      `Converted & compressed ${files.length} image(s)! Reduced by ${overallPercent}% (${formatBytes(overallSaved)} saved).`
+    );
+  } catch (err) {
+    hideOverlay();
+    alert('Image processing error: ' + err.message);
+  }
+}
+
+// ================= TAB 5: WEBSITE UPLOAD ASSISTANT =================
+function setupAssistantTab() {
+  const scanBtn = document.getElementById('btn-scan-uploads');
+  const fieldsContainer = document.getElementById('detected-fields-list');
+  const closeBtn = document.getElementById('btn-close-picker');
+  const cancelBtn = document.getElementById('btn-cancel-picker');
+  const backdrop = document.getElementById('picker-backdrop');
+  const pickerList = document.getElementById('picker-docs-list');
+
+  if (scanBtn) {
+    scanBtn.addEventListener('click', () => scanActiveTabForUploads());
+  }
+
+  [closeBtn, cancelBtn, backdrop].forEach((el) => {
+    if (el) {
+      el.addEventListener('click', () => closePickerModal());
+    }
+  });
+
+  if (fieldsContainer) {
+    fieldsContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="open-picker"]');
+      if (btn) {
+        openPickerModal(btn.dataset.fieldId, btn.dataset.label);
+      }
+    });
+  }
+
+  if (pickerList) {
+    pickerList.addEventListener('click', (e) => {
+      const item = e.target.closest('[data-action="select-doc"]');
+      if (item) {
+        selectDocForUpload(item.dataset.docId);
+      }
+    });
+  }
+}
+
+async function scanActiveTabForUploads() {
+  const container = document.getElementById('detected-fields-list');
+  const targetInfo = document.getElementById('assistant-target-info');
+  if (!container) return;
+
+  container.innerHTML = '<div class="empty-state">Scanning active tab for upload fields...</div>';
+
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab || !tab.id) {
+      container.innerHTML = '<div class="empty-state">No active browser tab found.</div>';
+      return;
+    }
+
+    if (tab.url && (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('https://chromewebstore.google.com'))) {
+      container.innerHTML = `
+        <div class="empty-state">
+          Upload assistant cannot run on protected browser internal pages. Navigate to any website to scan for upload fields.
+        </div>
+      `;
+      if (targetInfo) targetInfo.style.display = 'none';
+      return;
+    }
+
+    appState.assistant.currentTabId = tab.id;
+    if (targetInfo) targetInfo.style.display = 'block';
+    document.getElementById('target-page-title').textContent = tab.title || 'Active Webpage';
+    document.getElementById('target-page-url').textContent = tab.url || '';
+
+    let response = null;
+    try {
+      response = await chrome.tabs.sendMessage(tab.id, { action: 'SCAN_FIELDS' });
+    } catch {
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['content_script.js']
+      });
+      response = await chrome.tabs.sendMessage(tab.id, { action: 'SCAN_FIELDS' });
+    }
+
+    if (!response || !response.fields) {
+      container.innerHTML = '<div class="empty-state">No response from page.</div>';
+      return;
+    }
+
+    appState.assistant.fields = response.fields;
+    renderDetectedFields(response.fields);
+  } catch (err) {
+    console.error('Scan error:', err);
+    container.innerHTML = `
+      <div class="empty-state">
+        Could not inspect current tab: ${escapeHtml(err.message)}
+      </div>
+    `;
+  }
+}
+
+function renderDetectedFields(fields) {
+  const container = document.getElementById('detected-fields-list');
+  if (!container) return;
+
+  if (fields.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        No &lt;input type="file"&gt; fields detected on this page.<br>
+        Navigate to a page with an upload form or refresh and scan again.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = fields
+    .map(
+      (f) => `
+    <div class="field-card">
+      <div class="field-card__header">
+        <div class="field-card__label">${escapeHtml(f.label)}</div>
+        <span class="field-badge ${f.accept ? 'field-badge--accept' : ''}">
+          ${f.accept ? escapeHtml(f.accept) : 'Any format'}
+        </span>
+      </div>
+      <div class="field-card__details">
+        <span>Field: <code>${escapeHtml(f.name || f.id || 'input[file]')}</code></span>
+        ${f.hasFiles ? `<span>â€¢ (Contains ${f.currentFilesCount} file)</span>` : ''}
+      </div>
+      <div class="field-card__actions">
+        <button type="button" class="btn btn--primary btn--sm btn--full" data-action="open-picker" data-field-id="${f.fieldId}" data-label="${escapeAttr(f.label)}">
+          Fill with DocDock Doc &rarr;
+        </button>
+      </div>
+    </div>
+  `
+    )
+    .join('');
+}
+
+async function openPickerModal(fieldId, fieldLabel) {
+  appState.assistant.selectedFieldId = fieldId;
+  const labelEl = document.getElementById('picker-field-label');
+  if (labelEl) labelEl.textContent = `Target: ${fieldLabel}`;
+
+  const listEl = document.getElementById('picker-docs-list');
+  const docs = await window.DocDockDB.getAllDocuments();
+
+  if (!listEl) return;
+
+  if (docs.length === 0) {
+    listEl.innerHTML = `
+      <div class="empty-state">
+        No documents in DocDock library.<br>
+        Please add files under <strong>My Docs</strong> first.
+      </div>
+    `;
+  } else {
+    listEl.innerHTML = docs
+      .map(
+        (doc) => `
+      <div class="picker-item" data-action="select-doc" data-doc-id="${doc.id}">
+        <div>
+          <div class="picker-item__name">${escapeHtml(doc.name)}</div>
+          <div class="picker-item__meta">${escapeHtml(doc.category)} â€¢ ${formatBytes(doc.size)}</div>
+        </div>
+        <button type="button" class="btn btn--secondary btn--xs">Select</button>
+      </div>
+    `
+      )
+      .join('');
+  }
+
+  document.getElementById('picker-modal').style.display = 'flex';
+}
+
+function closePickerModal() {
+  const modal = document.getElementById('picker-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function selectDocForUpload(docId) {
+  closePickerModal();
+  const fieldId = appState.assistant.selectedFieldId;
+  const tabId = appState.assistant.currentTabId;
+
+  if (!fieldId || !tabId) return showToast('Upload target missing.');
+
+  showOverlay('Filling field...', 'Transmitting file securely to website upload input');
+
+  try {
+    const doc = await window.DocDockDB.getDocument(docId);
+    if (!doc || !doc.data) throw new Error('Document binary data unavailable');
+
+    const response = await chrome.tabs.sendMessage(tabId, {
+      action: 'FILL_FIELD',
+      fieldId,
+      fileData: {
+        name: doc.name,
+        type: doc.type,
+        buffer: doc.data
+      }
+    });
+
+    hideOverlay();
+
+    if (response && response.success) {
+      showToast(`Field successfully filled with "${doc.name}"!`);
+      scanActiveTabForUploads();
+    } else {
+      showToast('Automated fill restricted by page. Downloaded file for manual selection.');
+      downloadDocument(docId);
+    }
+  } catch (err) {
+    hideOverlay();
+    console.error('Fill field error:', err);
+    showToast('Fill error: ' + err.message);
+  }
+}
+
+// ================= UTILITIES =================
+function showOverlay(title, desc) {
+  const titleEl = document.getElementById('overlay-title');
+  const descEl = document.getElementById('overlay-desc');
+  if (titleEl) titleEl.textContent = title;
+  if (descEl) descEl.textContent = desc;
+  const overlay = document.getElementById('overlay');
+  if (overlay) overlay.style.display = 'flex';
+}
+
+function hideOverlay() {
+  const overlay = document.getElementById('overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function showToast(message, duration = 3500) {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toast-message');
+  if (!toast || !toastMsg) return;
+  toastMsg.textContent = message;
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, duration);
+}
+
+function formatBytes(bytes, decimals = 1) {
+  if (!bytes || bytes === 0) return '0 B';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeAttr(str) {
+  if (!str) return '';
+  return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+  </script>
+</body>
+</html>

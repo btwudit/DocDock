@@ -1,0 +1,24 @@
+{
+  "name": "docdock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/run_tests.js",
+    "build:extension": "node scripts/validate_extension.js",
+    "generate:icons": "node scripts/generate_icons.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "archiver": "^8.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "multer": "^2.5.0",
+    "pdf-lib": "^1.17.1",
+    "sharp": "^0.35.5"
+  }
+}
